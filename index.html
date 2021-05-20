@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkers</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="checkers-wrapper">
+      <div class="checkers-menu">
+        <img class="checkers-logo" src="./images/logo.png" alt="checkers logo" />
+        <div class="checkers-menu-list">
+          <img class="play-vs-computer" src="./images/play-vs-computer.png" alt="play vs computer" />
+          <img class="play-vs-friend" src="./images/play-vs-friend.png" alt="play vs friend" />
+
+          <img class="instructions" src="./images/instructions.png" alt="instructions" />
+
+          <img class="settings" src="./images/settings.png" alt="settings" />
+        </div>
+      </div>
+      <div class="board-wrapper">
+        <table class="board"></table>
+        <div class="scoreboard">
+          <div class="score-red-wrapper">
+            <img src="./images/red-piece.png" style="width: 70px; height: 70px" alt="red-piece" />
+            <span class="red-score-text"></span>
+          </div>
+
+          <div class="score-black-wrapper">
+            <img src="./images/black-piece.png" style="width: 70px; height: 70px" alt="black-piece" />
+            <span class="black-score-text"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/constants.js"></script>
+    <script src="./js/dom-elements.js"></script>
+    <script src="./js/square.js"></script>
+    <script src="./js/piece.js"></script>
+    <script src="./js/board.js"></script>
+    <script src="./js/rules.js"></script>
+    <script src="./js/game.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/menu.js"></script>
+  </body>
+</html>

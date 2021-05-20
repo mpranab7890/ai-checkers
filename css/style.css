@@ -1,0 +1,111 @@
+.checkers-wrapper {
+  max-width: 800px;
+  height: 800px;
+  margin: 50px auto;
+}
+
+.checkers-menu {
+  height: 100%;
+  /* background-color: rgb(255, 211, 167); */
+  background: url('../images/background-texture.jpg');
+  background-size: 100% 100%;
+}
+
+.checkers-logo {
+  display: block;
+  margin: 0px auto;
+}
+
+.checkers-menu-list img {
+  display: block;
+  margin: 30px auto;
+}
+
+.checkers-menu-list img:hover {
+  transform: scale(1.2);
+}
+
+.board-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: none;
+}
+
+.board {
+  width: 100%;
+  height: 100%;
+  border: 4px solid;
+}
+
+.scoreboard {
+  position: absolute;
+  left: 101%;
+  top: 0%;
+}
+
+.score-red-wrapper,
+.score-black-wrapper {
+  position: relative;
+}
+
+.red-score-text,
+.black-score-text {
+  /* padding: 20px 5px; */
+  position: absolute;
+  top: 20%;
+  left: 27%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bolder;
+  color: #fff;
+}
+
+.black-square {
+  /* background-color: #3f3f3f; */
+  background: url('../images/dark-texture.jpg');
+  background-size: 100% 100%;
+}
+
+.white-square {
+  /* background-color: #bd8f5d; */
+  background: url('../images/light-texture.jpg');
+  background-size: 100% 100%;
+}
+
+.bordered-square {
+  border: 4px solid;
+  border-radius: 5px;
+}
+
+.red-piece {
+  width: 90%;
+  height: 90%;
+  margin: 0px auto;
+  background: url('../images/red-piece.png');
+  background-size: 100% 100%;
+}
+
+.black-piece {
+  width: 90%;
+  height: 90%;
+  margin: 0px auto;
+  background: url('../images/black-piece.png');
+  background-size: 100% 100%;
+}
+
+.red-king {
+  width: 90%;
+  height: 90%;
+  margin: 0px auto;
+  background: url('../images/red-king.png');
+  background-size: 100% 100%;
+}
+
+.black-king {
+  width: 90%;
+  height: 90%;
+  margin: 0px auto;
+  background: url('../images/black-king.png');
+  background-size: 100% 100%;
+}
