@@ -9,8 +9,8 @@ class Square {
   }
 
   styleSquare = () => {
-    this.squareElement.style.width = parseInt(getComputedStyle(DOM_board).width) / BLOCKS_PER_ROW + '%';
-    this.squareElement.style.height = parseInt(getComputedStyle(DOM_board).height) / BLOCKS_PER_ROW + '%';
+    this.squareElement.style.width = parseInt(getComputedStyle(DOM_board).width) / BLOCKS_PER_ROW + 'px';
+    this.squareElement.style.height = parseInt(getComputedStyle(DOM_board).height) / BLOCKS_PER_ROW + 'px';
     if ((this.squareNumber + this.rowCount) % TYPES_OF_BLOCKS === 0) {
       this.squareElement.setAttribute('class', 'white-square');
     } else {

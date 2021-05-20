@@ -1,5 +1,5 @@
 .checkers-wrapper {
-  max-width: 800px;
+  width: 800px;
   height: 800px;
   margin: 50px auto;
 }
@@ -33,8 +33,8 @@
 }
 
 .board {
-  width: 100%;
-  height: 100%;
+  width: 800px;
+  height: 800px;
   border: 4px solid;
 }
 
