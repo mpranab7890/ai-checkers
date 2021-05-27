@@ -3,11 +3,20 @@ class CheckersUtils {
     var playerColor = player[0].type;
     var possibleMoves = {};
     player.forEach((playerPiece) => {
-      possibleMoves[playerPiece.squareNumber] = CheckersUtils.getMove(
-        playerPiece.squareNumber,
-        playerColor,
-        squareBlocks
-      );
+      if (playerPiece.isKing) {
+        let result1 = CheckersUtils.getMove(playerPiece.squareNumber, RED_PIECE, squareBlocks);
+
+        let result2 = CheckersUtils.getMove(playerPiece.squareNumber, BLACK_PIECE, squareBlocks);
+
+        if (!(result1.length === 0 && result2.length === 0)) {
+          possibleMoves[playerPiece.squareNumber] = result1.concat(result2);
+        }
+      } else {
+        let result = CheckersUtils.getMove(playerPiece.squareNumber, playerColor, squareBlocks);
+        if (result.length != 0) {
+          possibleMoves[playerPiece.squareNumber] = result;
+        }
+      }
     });
 
     return possibleMoves;
@@ -131,5 +140,19 @@ class CheckersUtils {
       return true;
     }
     return false;
+  };
+
+  static checkGameOver = (squareBlocks, player) => {
+    if (player.length === 0) {
+      return true;
+    } else if (
+      Object.keys(CheckersUtils.getAllCaptureMoves(squareBlocks, player)).length === 0 &&
+      Object.keys(CheckersUtils.getAllPossibleMoves(squareBlocks, player)).length === 0
+    ) {
+      console.log('No movesss');
+      return true;
+    } else {
+      return false;
+    }
   };
 }

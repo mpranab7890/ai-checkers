@@ -14,25 +14,32 @@ class Game {
     this.board = new Board();
   }
 
-  initialize = () => {
+  initialize = (gameMode = 'none', depth = 0) => {
+    this.gameMode = gameMode;
+    this.depth = depth;
     //Initialize board
     this.board.initBoard(this.squareBlocks, this.redPieces, this.blackPieces);
     this.updateScore();
     this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, this.blackPieces);
 
-    //Event Listener for red piece
-    this.redPieces.forEach((redPiece) => {
-      redPiece.pieceElement.addEventListener('click', () => {
-        if (this.turn === RED_PIECE) {
-          this.handlePieceClick(redPiece);
-        }
+    new AI(this.depth);
+
+    //Event Listener for red piece. No need to set up onclick listener for AI mode.
+    if (this.gameMode != AI_MODE) {
+      this.redPieces.forEach((redPiece) => {
+        redPiece.pieceElement.addEventListener('click', () => {
+          if (this.turn === RED_PIECE) {
+            this.handlePieceClick(redPiece);
+          }
+        });
       });
-    });
+    }
 
     //Event listener for black piece
     this.blackPieces.forEach((blackPiece) => {
       blackPiece.pieceElement.addEventListener('click', () => {
         if (this.turn === BLACK_PIECE) {
+          console.log('here');
           this.handlePieceClick(blackPiece);
         }
       });
@@ -77,20 +84,20 @@ class Game {
 
   //Event handler function for click event on square blocks
   handleBoardClick = (square) => {
-    if (this.pieceClicked) {
-      if (
+    if (
+      (this.gameMode == AI_MODE && this.turn == RED_PIECE) ||
+      (this.pieceClicked &&
         square.squareNumber != this.currentPieceClicked.squareNumber &&
-        this.possibleMoves.includes(square.squareNumber)
-      ) {
-        square.addPieceToDOM(this.currentPieceClicked.pieceElement, this.currentPieceClicked.type);
-        this.squareBlocks[this.currentPieceClicked.squareNumber].removePieceFromDOM();
-        if (this.capturePossible) {
-          this.captureOpponentPiece(square);
-          this.updateScore();
-        }
-        this.currentPieceClicked.update(square.squareNumber);
-        this.resetParametersForNextPlayer(square);
+        this.possibleMoves.includes(square.squareNumber))
+    ) {
+      square.addPieceToDOM(this.currentPieceClicked.pieceElement, this.currentPieceClicked.type);
+      this.squareBlocks[this.currentPieceClicked.squareNumber].removePieceFromDOM();
+      if (this.capturePossible) {
+        this.captureOpponentPiece(square);
+        this.updateScore();
       }
+      this.currentPieceClicked.update(square.squareNumber);
+      this.resetParametersForNextPlayer(square);
     }
   };
 
@@ -112,24 +119,66 @@ class Game {
 
   resetParametersForNextPlayer = (square) => {
     this.removeBorders(this.possibleMoves);
-    var c = [];
+    var nextCaptureJump = [];
 
-    //c = CheckersUtils.getCaptureMove(square.squareNumber, this.currentPieceClicked.type, this.squareBlocks);
-    c = CheckersUtils.getAllCaptureMoves(this.squareBlocks, [this.currentPieceClicked])[square.squareNumber];
-    c = c ? c : [];
-    if (this.capturePossible && c.length != 0) {
-      this.possibleMoves = c;
-      this.highlightSquares(this.possibleMoves);
-    } else {
+    //Check if next capture for same player is available
+    nextCaptureJump = CheckersUtils.getAllCaptureMoves(this.squareBlocks, [this.currentPieceClicked])[
+      square.squareNumber
+    ];
+    nextCaptureJump = nextCaptureJump ? nextCaptureJump : [];
+
+    //If double jump is possible, don't switch the turn and add capture move to the list of possible moves
+    if (this.capturePossible && nextCaptureJump.length != 0) {
+      this.possibleMoves = nextCaptureJump;
+      if (this.gameMode === AI_MODE) {
+        setTimeout(() => {
+          this.AImove(square.squareNumber, nextCaptureJump[0]);
+        }, 500);
+      } else {
+        this.highlightSquares(this.possibleMoves);
+      }
+    }
+    //If another jump is not possible, reset parameters and switch the turn to another player
+    else {
       if (!this.currentPieceClicked.isKing && CheckersUtils.possibleKingUpgrade(this.turn, square.squareNumber)) {
         this.currentPieceClicked.upgradeToKing();
       }
+
       this.turn = this.turn == RED_PIECE ? BLACK_PIECE : RED_PIECE;
       let nextPlayer = this.turn == RED_PIECE ? this.redPieces : this.blackPieces;
       this.pieceClicked = false;
       this.capturePossible = false;
-      this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, nextPlayer);
+
+      if (CheckersUtils.checkGameOver(this.squareBlocks, nextPlayer)) {
+        this.handleGameOver(this.turn);
+      } else {
+        if (this.gameMode == AI_MODE && this.turn == RED_PIECE) {
+          setTimeout(() => {
+            this.handleAIMove();
+          }, 200);
+        } else {
+          this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, nextPlayer);
+        }
+      }
     }
+  };
+
+  handleAIMove = () => {
+    this.bestAIMove = AI.getMoveFromAI(this.squareBlocks, this.redPieces, this.blackPieces);
+    console.log(this.bestAIMove);
+    let sourceBlock = parseInt(Object.keys(this.bestAIMove)[0]);
+    let destinationBlock = this.bestAIMove[sourceBlock];
+    this.AImove(sourceBlock, destinationBlock);
+    //this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, this.blackPieces);
+  };
+
+  AImove = (sourceBlock, destinationBlock) => {
+    if (Math.abs(sourceBlock - destinationBlock) > 9) {
+      this.capturePossible = true;
+    }
+    let redPieceIndex = this.redPieces.findIndex((r) => r.squareNumber === sourceBlock);
+    this.currentPieceClicked = this.redPieces[redPieceIndex];
+    this.handleBoardClick(this.squareBlocks[destinationBlock]);
   };
 
   //Update dom elements according to the remaining number of pieces
@@ -150,5 +199,24 @@ class Game {
     possibleMoves.forEach((possibleMove) => {
       this.squareBlocks[possibleMove].squareElement.classList.remove('bordered-square');
     });
+  };
+
+  handleGameOver = (previousPlayer) => {
+    DOM_gameOver.style.display = 'block';
+    let winner = previousPlayer == RED_PIECE ? BLACK_PIECE : RED_PIECE;
+    DOM_winner.innerHTML = winner;
+    DOM_board.style.opacity = 0.6;
+  };
+
+  reset = () => {
+    this.squareBlocks = [];
+    this.redPieces = [];
+    this.blackPieces = [];
+    this.possibleMoves = [];
+    this.turn = BLACK_PIECE;
+    this.pieceClicked = false;
+    this.capturePossible = false;
+    this.currentPieceClicked = {};
+    DOM_board.innerHTML = '';
   };
 }

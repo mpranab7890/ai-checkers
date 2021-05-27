@@ -16,12 +16,18 @@
   margin: 0px auto;
 }
 
-.checkers-menu-list img {
+.checkers-menu-list img,
+.game-modes-list img {
   display: block;
   margin: 30px auto;
 }
 
-.checkers-menu-list img:hover {
+.game-modes-list {
+  display: none;
+}
+
+.checkers-menu-list img:hover,
+.game-modes-list img:hover {
   transform: scale(1.2);
 }
 
@@ -32,16 +38,54 @@
   display: none;
 }
 
+.home-button {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 100%;
+  top: 0%;
+}
+
 .board {
   width: 100%;
   height: 800px;
   border: 4px solid;
+  border-spacing: 0;
 }
 
 .scoreboard {
   position: absolute;
   left: 101%;
   top: 0%;
+}
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  display: none;
+  background: url('../images/background-texture.jpg');
+  border: 2px solid;
+  border-radius: 10px;
+}
+
+.winning-message {
+  width: fit-content;
+  margin: 20px auto;
+  font-size: 30px;
+  font-weight: bolder;
+  color: #fff;
+}
+
+.winner {
+  text-transform: capitalize;
+}
+
+.return-to-main-menu {
+  width: 100%;
+  padding: 20px 20px;
 }
 
 .score-red-wrapper,
