@@ -55,7 +55,7 @@ class Game {
   handlePieceClick = (piece) => {
     this.pieceClicked = true;
     this.currentPieceClicked = piece;
-
+    pieceClickAudio.play();
     //Removes borders on the previous squares corresponding to possible moves
     if (this.possibleMoves.length != 0) {
       this.removeBorders(this.possibleMoves);
@@ -96,6 +96,7 @@ class Game {
         this.captureOpponentPiece(square);
         this.updateScore();
       }
+      pieceMovementAudio.play();
       this.currentPieceClicked.update(square.squareNumber);
       this.resetParametersForNextPlayer(square);
     }
@@ -115,6 +116,7 @@ class Game {
     }
     this.squareBlocks[pieceToRemove].squareElement.getElementsByTagName('div')[0].replaceWith();
     this.squareBlocks[pieceToRemove].removePieceFromDOM();
+    pieceCaptureAudio.play();
   };
 
   resetParametersForNextPlayer = (square) => {

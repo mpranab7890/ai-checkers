@@ -50,7 +50,11 @@ class AI {
   }
 
   static minimax(squareBlocks, redPieces, blackPieces, depth, alpha, beta, maximizingPlayer) {
-    if (depth === 0) {
+    if (
+      depth === 0 ||
+      CheckersUtils.checkGameOver(squareBlocks, redPieces) ||
+      CheckersUtils.checkGameOver(squareBlocks, blackPieces)
+    ) {
       return AI.calculateHeuristic(redPieces, blackPieces);
     }
 

@@ -15,4 +15,4 @@ const BLACK_PIECE = 'black';
 const NO_PIECE = 'none';
 
 const INITIAL_ALPHA = -100;
-const INITIAL_BETA = 100;
+const INITIAL_BETA = +100;
