@@ -108,7 +108,9 @@ class Game {
         pieceMovementAudio.play();
       });
       this.currentPieceClicked.update(square.squareNumber);
-      this.removePieceBorders(this.allCaptureMoves, this.turn == RED_PIECE ? this.redPieces : this.blackPieces);
+      if (!(this.gameMode == AI_MODE && this.turn == RED_PIECE)) {
+        this.removePieceBorders(this.allCaptureMoves, this.turn == RED_PIECE ? this.redPieces : this.blackPieces);
+      }
       this.resetParametersForNextPlayer(square);
     }
   };
