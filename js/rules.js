@@ -133,6 +133,13 @@ class CheckersUtils {
     return temp;
   }
 
+  static convertToLabels = (squareNumber) => {
+    let label = '';
+    label += BOARD_LABELS[squareNumber % BLOCKS_PER_ROW];
+    label += BLOCKS_PER_ROW - Math.floor(squareNumber / BLOCKS_PER_ROW);
+    return label;
+  };
+
   static possibleKingUpgrade = (pieceColor, squareNumber) => {
     if (pieceColor === BLACK_PIECE && squareNumber < 8) {
       return true;

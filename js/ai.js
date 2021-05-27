@@ -1,7 +1,8 @@
 class AI {
   constructor(depth) {
     AI.depth = depth;
-    AI.bestMove = {};
+    AI.bestRedMove = {};
+    AI.bestBlackMove = {};
   }
 
   static makeCopy = (elements) => {
@@ -12,7 +13,7 @@ class AI {
     return copyOfElement;
   };
 
-  static getMoveFromAI = (squareBlocks, redPieces, blackPieces) => {
+  static getMoveFromAI = (squareBlocks, redPieces, blackPieces, maximizingPlayer) => {
     AI.minimax(
       AI.makeCopy(squareBlocks),
       AI.makeCopy(redPieces),
@@ -20,10 +21,10 @@ class AI {
       AI.depth,
       INITIAL_ALPHA,
       INITIAL_BETA,
-      true
+      maximizingPlayer
     );
 
-    return AI.bestMove;
+    return maximizingPlayer ? AI.bestRedMove : AI.bestBlackMove;
   };
 
   static calculateHeuristic(redPieces, blackPieces) {
@@ -70,7 +71,7 @@ class AI {
           AI.makeCopy(squareBlocks),
           AI.makeCopy(redPieces),
           AI.makeCopy(blackPieces),
-          true
+          maximizingPlayer
         );
 
         var evaluation = AI.minimax(
@@ -80,13 +81,13 @@ class AI {
           depth - 1,
           alpha,
           beta,
-          false
+          !maximizingPlayer
         );
 
         if (evaluation > maxEval) {
           maxEval = evaluation;
           if (depth == AI.depth) {
-            AI.bestMove = possibleMove;
+            AI.bestRedMove = possibleMove;
           }
         }
 
@@ -109,7 +110,7 @@ class AI {
           AI.makeCopy(squareBlocks),
           AI.makeCopy(redPieces),
           AI.makeCopy(blackPieces),
-          false
+          maximizingPlayer
         );
         let evaluation = AI.minimax(
           updatedSquareBlocks,
@@ -118,11 +119,16 @@ class AI {
           depth - 1,
           alpha,
           beta,
-          true
+          !maximizingPlayer
         );
         //console.log('Human: ' + evaluation + ' ' + depth);
 
-        minEval = Math.min(minEval, evaluation);
+        if (evaluation < minEval) {
+          minEval = evaluation;
+          if (depth == AI.depth) {
+            AI.bestBlackMove = possibleMove;
+          }
+        }
 
         beta = Math.min(beta, evaluation);
 

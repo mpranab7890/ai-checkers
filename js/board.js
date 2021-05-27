@@ -3,6 +3,7 @@ class Board {
   //Initialize board with squares and pieces
   initBoard = (squareArray, redPieces, blackPieces) => {
     var rowCount = -1;
+    var leftLabelStart = BLOCKS_PER_ROW;
     for (let i = 0; i < TOTAL_BLOCKS; i++) {
       if (i % BLOCKS_PER_ROW === 0) {
         rowCount++;
@@ -19,6 +20,18 @@ class Board {
       } else if (i >= BLACK_PIECE_START_BLOCK && (i + rowCount) % TYPES_OF_BLOCKS != 0) {
         blackPieces.push(new Piece(pieceElement, i, BLACK_PIECE));
         piece = BLACK_PIECE;
+      }
+      if (i > 55) {
+        var bottomLabel = document.createElement('p');
+        bottomLabel.innerText = BOARD_LABELS[i % BLOCKS_PER_ROW];
+        bottomLabel.setAttribute('class', 'bottom-labels');
+        squareElement.appendChild(bottomLabel);
+      }
+      if (i % BLOCKS_PER_ROW === 0) {
+        var leftLabel = document.createElement('p');
+        leftLabel.innerText = leftLabelStart--;
+        leftLabel.setAttribute('class', 'left-labels');
+        squareElement.appendChild(leftLabel);
       }
       squareElement.appendChild(pieceElement);
       squareRow.appendChild(squareElement);

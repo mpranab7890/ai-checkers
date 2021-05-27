@@ -1,7 +1,7 @@
 .checkers-wrapper {
   width: 800px;
-  height: 800px;
-  margin: 50px auto;
+  /* height: 800px; */
+  margin: 10px auto;
 }
 
 .checkers-menu {
@@ -41,9 +41,7 @@
 .home-button {
   width: 50px;
   height: 50px;
-  position: absolute;
-  right: 100%;
-  top: 0%;
+  float: left;
 }
 
 .board {
@@ -54,9 +52,40 @@
 }
 
 .scoreboard {
+  float: right;
+}
+
+.turn-text {
+  font-size: 25px;
+  font-weight: bolder;
+  color: #7f472b;
+  float: left;
+  margin: 0px 226px;
+}
+
+.turn-text span {
+  text-transform: capitalize;
+}
+
+.red-text {
+  color: red;
+}
+
+.black-text {
+  color: black;
+}
+
+.recommended-move-section {
   position: absolute;
   left: 101%;
   top: 0%;
+  margin-top: 60px;
+}
+
+.recommended-move-section p {
+  font-size: 25px;
+  font-weight: bolder;
+  white-space: nowrap;
 }
 
 .game-over {
@@ -90,6 +119,8 @@
 
 .score-red-wrapper,
 .score-black-wrapper {
+  float: left;
+  padding: 0px 5px;
   position: relative;
 }
 
@@ -109,17 +140,33 @@
   /* background-color: #3f3f3f; */
   background: url('../images/dark-texture.jpg');
   background-size: 100% 100%;
+  position: relative;
 }
 
 .white-square {
   /* background-color: #bd8f5d; */
   background: url('../images/light-texture.jpg');
   background-size: 100% 100%;
+  position: relative;
 }
 
 .bordered-square {
   border: 4px solid;
   border-radius: 5px;
+}
+
+.bottom-labels {
+  position: absolute;
+  right: 50%;
+  top: 105%;
+  font-weight: bolder;
+}
+
+.left-labels {
+  position: absolute;
+  right: 108%;
+  top: 50%;
+  font-weight: bolder;
 }
 
 .red-piece {

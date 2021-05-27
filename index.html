@@ -28,18 +28,28 @@
         </div>
       </div>
       <div class="board-wrapper">
-        <img class="home-button" src="./images/home-button.png" alt="" />
-        <table class="board"></table>
-        <div class="scoreboard">
-          <div class="score-red-wrapper">
-            <img src="./images/red-piece.png" style="width: 70px; height: 70px" alt="red-piece" />
-            <span class="red-score-text"></span>
-          </div>
+        <div class="board-top clearfix">
+          <img class="home-button" src="./images/home-button.png" alt="" />
+          <div class="turn-text"><span class="turn"></span>'s Turn</div>
 
-          <div class="score-black-wrapper">
-            <img src="./images/black-piece.png" style="width: 70px; height: 70px" alt="black-piece" />
-            <span class="black-score-text"></span>
+          <div class="scoreboard">
+            <div class="score-red-wrapper">
+              <img src="./images/red-piece.png" style="width: 60px; height: 60px" alt="red-piece" />
+              <span class="red-score-text"></span>
+            </div>
+
+            <div class="score-black-wrapper">
+              <img src="./images/black-piece.png" style="width: 60px; height: 60px" alt="black-piece" />
+              <span class="black-score-text"></span>
+            </div>
           </div>
+        </div>
+
+        <table class="board"></table>
+
+        <div class="recommended-move-section">
+          <p>Recommended move:</p>
+          <p><span class="recommended-move-source"></span> -> <span class="recommended-move-destination"></span></p>
         </div>
 
         <div class="game-over">

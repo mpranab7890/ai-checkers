@@ -14,7 +14,7 @@ class Game {
     this.board = new Board();
   }
 
-  initialize = (gameMode = 'none', depth = 0) => {
+  initialize = (gameMode = 'none', depth = 4) => {
     this.gameMode = gameMode;
     this.depth = depth;
     //Initialize board
@@ -23,6 +23,8 @@ class Game {
     this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, this.blackPieces);
 
     new AI(this.depth);
+    DOM_turn.innerText = BLACK_PIECE;
+    DOM_turn.setAttribute('class', `${this.turn}-text`);
 
     //Event Listener for red piece. No need to set up onclick listener for AI mode.
     if (this.gameMode != AI_MODE) {
@@ -150,6 +152,8 @@ class Game {
       let nextPlayer = this.turn == RED_PIECE ? this.redPieces : this.blackPieces;
       this.pieceClicked = false;
       this.capturePossible = false;
+      DOM_turn.innerText = this.turn;
+      DOM_turn.setAttribute('class', `${this.turn}-text`);
 
       if (CheckersUtils.checkGameOver(this.squareBlocks, nextPlayer)) {
         this.handleGameOver(this.turn);
@@ -160,13 +164,26 @@ class Game {
           }, 200);
         } else {
           this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, nextPlayer);
+          let maximizingPlayer = this.turn === RED_PIECE ? true : false;
+          console.log(maximizingPlayer);
+          this.recommendedMove = AI.getMoveFromAI(
+            this.squareBlocks,
+            this.redPieces,
+            this.blackPieces,
+            maximizingPlayer
+          );
+          let sourceBlock = parseInt(Object.keys(this.recommendedMove)[0]);
+          let destinationBlock = this.recommendedMove[sourceBlock];
+          DOM_recommendedMoveSource.innerText = CheckersUtils.convertToLabels(sourceBlock);
+          DOM_recommendedMoveDestination.innerText = CheckersUtils.convertToLabels(destinationBlock);
+          console.log(sourceBlock, destinationBlock);
         }
       }
     }
   };
 
   handleAIMove = () => {
-    this.bestAIMove = AI.getMoveFromAI(this.squareBlocks, this.redPieces, this.blackPieces);
+    this.bestAIMove = AI.getMoveFromAI(this.squareBlocks, this.redPieces, this.blackPieces, true);
     console.log(this.bestAIMove);
     let sourceBlock = parseInt(Object.keys(this.bestAIMove)[0]);
     let destinationBlock = this.bestAIMove[sourceBlock];
