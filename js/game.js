@@ -25,6 +25,11 @@ class Game {
     new AI(this.depth);
     DOM_turn.innerText = BLACK_PIECE;
     DOM_turn.setAttribute('class', `${this.turn}-text`);
+    if (this.gameMode == AI_MODE) {
+      DOM_recommendedMoveSection.style.display = 'none';
+    } else {
+      DOM_recommendedMoveSection.style.display = 'block';
+    }
 
     //Event Listener for red piece. No need to set up onclick listener for AI mode.
     if (this.gameMode != AI_MODE) {
@@ -41,7 +46,6 @@ class Game {
     this.blackPieces.forEach((blackPiece) => {
       blackPiece.pieceElement.addEventListener('click', () => {
         if (this.turn === BLACK_PIECE) {
-          console.log('here');
           this.handlePieceClick(blackPiece);
         }
       });
@@ -57,7 +61,9 @@ class Game {
   handlePieceClick = (piece) => {
     this.pieceClicked = true;
     this.currentPieceClicked = piece;
-    pieceClickAudio.play();
+    setTimeout(() => {
+      pieceClickAudio.play();
+    });
     //Removes borders on the previous squares corresponding to possible moves
     if (this.possibleMoves.length != 0) {
       this.removeBorders(this.possibleMoves);
@@ -98,8 +104,11 @@ class Game {
         this.captureOpponentPiece(square);
         this.updateScore();
       }
-      pieceMovementAudio.play();
+      setTimeout(() => {
+        pieceMovementAudio.play();
+      });
       this.currentPieceClicked.update(square.squareNumber);
+      this.removePieceBorders(this.allCaptureMoves, this.turn == RED_PIECE ? this.redPieces : this.blackPieces);
       this.resetParametersForNextPlayer(square);
     }
   };
@@ -118,7 +127,9 @@ class Game {
     }
     this.squareBlocks[pieceToRemove].squareElement.getElementsByTagName('div')[0].replaceWith();
     this.squareBlocks[pieceToRemove].removePieceFromDOM();
-    pieceCaptureAudio.play();
+    setTimeout(() => {
+      pieceCaptureAudio.play();
+    });
   };
 
   resetParametersForNextPlayer = (square) => {
@@ -134,7 +145,7 @@ class Game {
     //If double jump is possible, don't switch the turn and add capture move to the list of possible moves
     if (this.capturePossible && nextCaptureJump.length != 0) {
       this.possibleMoves = nextCaptureJump;
-      if (this.gameMode === AI_MODE) {
+      if (this.gameMode === AI_MODE && this.turn === RED_PIECE) {
         setTimeout(() => {
           this.AImove(square.squareNumber, nextCaptureJump[0]);
         }, 500);
@@ -164,19 +175,22 @@ class Game {
           }, 200);
         } else {
           this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, nextPlayer);
-          let maximizingPlayer = this.turn === RED_PIECE ? true : false;
-          console.log(maximizingPlayer);
-          this.recommendedMove = AI.getMoveFromAI(
-            this.squareBlocks,
-            this.redPieces,
-            this.blackPieces,
-            maximizingPlayer
-          );
-          let sourceBlock = parseInt(Object.keys(this.recommendedMove)[0]);
-          let destinationBlock = this.recommendedMove[sourceBlock];
-          DOM_recommendedMoveSource.innerText = CheckersUtils.convertToLabels(sourceBlock);
-          DOM_recommendedMoveDestination.innerText = CheckersUtils.convertToLabels(destinationBlock);
-          console.log(sourceBlock, destinationBlock);
+          this.highlightPieces(this.allCaptureMoves, nextPlayer);
+          if (this.gameMode != AI_MODE) {
+            let maximizingPlayer = this.turn === RED_PIECE ? true : false;
+            this.recommendedMove = AI.getMoveFromAI(
+              this.squareBlocks,
+              this.redPieces,
+              this.blackPieces,
+              maximizingPlayer
+            );
+            let sourceBlock = parseInt(Object.keys(this.recommendedMove)[0]);
+            let destinationBlock = this.recommendedMove[sourceBlock];
+            DOM_recommendedMoveSource.innerText = CheckersUtils.convertToLabels(sourceBlock);
+            DOM_recommendedMoveSource.setAttribute('class', `${this.turn}-text`);
+            DOM_recommendedMoveDestination.innerText = CheckersUtils.convertToLabels(destinationBlock);
+            DOM_recommendedMoveDestination.setAttribute('class', `${this.turn}-text`);
+          }
         }
       }
     }
@@ -213,6 +227,13 @@ class Game {
     });
   };
 
+  highlightPieces = (captureMovePieces, player) => {
+    Object.keys(captureMovePieces).forEach((captureMovePiece) => {
+      let index = player.findIndex((p) => p.squareNumber == captureMovePiece);
+      player[index].pieceElement.classList.add('bordered-piece');
+    });
+  };
+
   //Removes the previously added borders to squares corresponding to possible moves
   removeBorders = (possibleMoves) => {
     possibleMoves.forEach((possibleMove) => {
@@ -220,10 +241,21 @@ class Game {
     });
   };
 
+  removePieceBorders = (captureMovePieces, player) => {
+    console.log(player);
+    Object.keys(captureMovePieces).forEach((captureMovePiece) => {
+      let index = player.findIndex(
+        (p) => p.squareNumber == captureMovePieces[captureMovePiece] || p.squareNumber == captureMovePiece
+      );
+      player[index].pieceElement.classList.remove('bordered-piece');
+    });
+  };
+
   handleGameOver = (previousPlayer) => {
     DOM_gameOver.style.display = 'block';
     let winner = previousPlayer == RED_PIECE ? BLACK_PIECE : RED_PIECE;
     DOM_winner.innerHTML = winner;
+    //DOM_winner.setAttribute('class', `${winner}-text`);
     DOM_board.style.opacity = 0.6;
   };
 

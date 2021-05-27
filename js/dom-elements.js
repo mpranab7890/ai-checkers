@@ -17,6 +17,7 @@ const DOM_returnToMainMenu = document.querySelector('.return-to-main-menu');
 const DOM_winner = document.querySelector('.winner');
 const DOM_recommendedMoveSource = document.querySelector('.recommended-move-source');
 const DOM_recommendedMoveDestination = document.querySelector('.recommended-move-destination');
+const DOM_recommendedMoveSection = document.querySelector('.recommended-move-section');
 
 const DOM_easyMode = document.querySelector('.easy-mode');
 const DOM_mediumMode = document.querySelector('.medium-mode');

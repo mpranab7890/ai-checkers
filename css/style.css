@@ -19,7 +19,16 @@
 .checkers-menu-list img,
 .game-modes-list img {
   display: block;
-  margin: 30px auto;
+  margin: 0px auto;
+  padding: 30px;
+}
+
+.game-modes-list img:last-child {
+  padding-bottom: 60px;
+}
+
+.checkers-menu-list img:last-child {
+  padding-bottom: 60px;
 }
 
 .game-modes-list {
@@ -58,7 +67,7 @@
 .turn-text {
   font-size: 25px;
   font-weight: bolder;
-  color: #7f472b;
+  color: blue;
   float: left;
   margin: 0px 226px;
 }
@@ -80,6 +89,7 @@
   left: 101%;
   top: 0%;
   margin-top: 60px;
+  color: blue;
 }
 
 .recommended-move-section p {
@@ -153,6 +163,12 @@
 .bordered-square {
   border: 4px solid;
   border-radius: 5px;
+}
+
+.bordered-piece {
+  border: 5px solid;
+  border-radius: 100%;
+  color: #fff;
 }
 
 .bottom-labels {

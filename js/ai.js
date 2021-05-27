@@ -23,7 +23,9 @@ class AI {
       INITIAL_BETA,
       maximizingPlayer
     );
-
+    if (maximizingPlayer) {
+      console.log(AI.bestRedMove);
+    }
     return maximizingPlayer ? AI.bestRedMove : AI.bestBlackMove;
   };
 
@@ -32,7 +34,7 @@ class AI {
     let blackScore = 0;
     redPieces.forEach((redPiece) => {
       if (redPiece.isKing) {
-        redScore += 5 + 8 + 2;
+        redScore += 5 + 8 + 1;
       } else {
         redScore += 5 + Math.floor(redPiece.squareNumber / 8);
       }
@@ -40,7 +42,7 @@ class AI {
 
     blackPieces.forEach((blackPiece) => {
       if (blackPiece.isKing) {
-        blackScore += 5 + 8 + 2;
+        blackScore += 5 + 8;
       } else {
         blackScore += 5 + (7 - Math.floor(blackPiece.squareNumber / 8));
       }
@@ -86,13 +88,12 @@ class AI {
 
         if (evaluation > maxEval) {
           maxEval = evaluation;
-          if (depth == AI.depth) {
+          if (depth === AI.depth) {
             AI.bestRedMove = possibleMove;
           }
         }
 
         alpha = Math.max(alpha, evaluation);
-        //console.log(alpha);
         if (beta <= alpha) {
           break;
         }
@@ -125,7 +126,7 @@ class AI {
 
         if (evaluation < minEval) {
           minEval = evaluation;
-          if (depth == AI.depth) {
+          if (depth === AI.depth) {
             AI.bestBlackMove = possibleMove;
           }
         }
