@@ -7,6 +7,7 @@ class Game {
     this.turn = BLACK_PIECE;
     this.currentPieceClicked = {};
 
+    this.doubleJump = false;
     this.pieceClicked = false;
     this.capturePossible = false;
 
@@ -28,17 +29,12 @@ class Game {
     //Initial DOM modifications
     DOM_turn.innerText = BLACK_PIECE;
     DOM_turn.setAttribute('class', `${this.turn}-text`);
-    if (this.gameMode == AI_MODE) {
-      DOM_recommendedMoveSection.style.display = 'none';
-    } else {
-      DOM_recommendedMoveSection.style.display = 'block';
-    }
 
     //Event Listener for red piece. No need to set up onclick listener for AI mode.
     if (this.gameMode != AI_MODE) {
       this.redPieces.forEach((redPiece) => {
         redPiece.pieceElement.addEventListener('click', () => {
-          if (this.turn === RED_PIECE) {
+          if (this.turn === RED_PIECE && !this.doubleJump) {
             this.handlePieceClick(redPiece);
           }
         });
@@ -48,7 +44,7 @@ class Game {
     //Event listener for black piece
     this.blackPieces.forEach((blackPiece) => {
       blackPiece.pieceElement.addEventListener('click', () => {
-        if (this.turn === BLACK_PIECE) {
+        if (this.turn === BLACK_PIECE && !this.doubleJump) {
           this.handlePieceClick(blackPiece);
         }
       });
@@ -117,7 +113,7 @@ class Game {
       this.currentPieceClicked.update(square.squareNumber);
 
       // Removes borders from the pieces which can capture opponent's piece
-      if (!(this.gameMode == AI_MODE && this.turn == RED_PIECE)) {
+      if (!(this.gameMode == AI_MODE && this.turn == RED_PIECE) && !this.doubleJump) {
         this.removePieceBorders(this.allCaptureMoves, this.turn == RED_PIECE ? this.redPieces : this.blackPieces);
       }
 
@@ -157,6 +153,7 @@ class Game {
 
     //If double jump is possible, don't switch the turn and add capture move to the list of possible moves
     if (this.capturePossible && nextCaptureJump.length != 0) {
+      this.doubleJump = true;
       this.possibleMoves = nextCaptureJump;
       if (this.gameMode === AI_MODE && this.turn === RED_PIECE) {
         setTimeout(() => {
@@ -174,6 +171,7 @@ class Game {
       }
 
       // Reset parameters for next player
+      this.doubleJump = false;
       this.turn = this.turn == RED_PIECE ? BLACK_PIECE : RED_PIECE;
       let nextPlayer = this.turn == RED_PIECE ? this.redPieces : this.blackPieces;
       this.pieceClicked = false;
@@ -181,7 +179,7 @@ class Game {
       DOM_turn.innerText = this.turn;
       DOM_turn.setAttribute('class', `${this.turn}-text`);
 
-      // Checks if game is over
+      // Check if game is over
       if (CheckersUtils.checkGameOver(this.squareBlocks, nextPlayer)) {
         this.handleGameOver(this.turn);
       }
@@ -192,32 +190,36 @@ class Game {
         if (this.gameMode == AI_MODE && this.turn == RED_PIECE) {
           setTimeout(() => {
             this.handleAIMove();
-          }, 200);
+          }, 300);
         }
 
         // If game mode is two player, get capture moves and recommended movesfor next player
         else {
           this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, nextPlayer);
           this.highlightPieces(this.allCaptureMoves, nextPlayer);
-          if (this.gameMode != AI_MODE) {
+          if (this.gameMode === AI_MODE) {
+            this.recommendedMove = AI.getMoveFromAI(this.squareBlocks, this.redPieces, this.blackPieces, false);
+          }
+          // Handles recommended move for next player
+          else {
             let maximizingPlayer = this.turn === RED_PIECE ? true : false;
 
-            // Handles recommended move for next player
             this.recommendedMove = AI.getMoveFromAI(
               this.squareBlocks,
               this.redPieces,
               this.blackPieces,
               maximizingPlayer
             );
-            let sourceBlock = parseInt(Object.keys(this.recommendedMove)[0]);
-            let destinationBlock = this.recommendedMove[sourceBlock];
-
-            //DOM modifications for recommended move
-            DOM_recommendedMoveSource.innerText = CheckersUtils.convertToLabels(sourceBlock);
-            DOM_recommendedMoveSource.setAttribute('class', `${this.turn}-text`);
-            DOM_recommendedMoveDestination.innerText = CheckersUtils.convertToLabels(destinationBlock);
-            DOM_recommendedMoveDestination.setAttribute('class', `${this.turn}-text`);
           }
+
+          let sourceBlock = parseInt(Object.keys(this.recommendedMove)[0]);
+          let destinationBlock = this.recommendedMove[sourceBlock];
+
+          //DOM modifications for recommended move
+          DOM_recommendedMoveSource.innerText = CheckersUtils.convertToLabels(sourceBlock);
+          DOM_recommendedMoveSource.setAttribute('class', `${this.turn}-text`);
+          DOM_recommendedMoveDestination.innerText = CheckersUtils.convertToLabels(destinationBlock);
+          DOM_recommendedMoveDestination.setAttribute('class', `${this.turn}-text`);
         }
       }
     }

@@ -41,9 +41,6 @@ class AI {
       INITIAL_BETA,
       maximizingPlayer
     );
-    if (maximizingPlayer) {
-      console.log(AI.bestRedMove);
-    }
     return maximizingPlayer ? AI.bestRedMove : AI.bestBlackMove;
   };
 

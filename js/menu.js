@@ -58,3 +58,11 @@ DOM_checkersLogo.onclick = () => {
   DOM_gameModeList.style.display = 'none';
   DOM_instructionsPage.style.display = 'none';
 };
+
+DOM_checkBox.onclick = () => {
+  if (DOM_checkBox.checked == true) {
+    DOM_recommendedMove.style.display = 'block';
+  } else {
+    DOM_recommendedMove.style.display = 'none';
+  }
+};

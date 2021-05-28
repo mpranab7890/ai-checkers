@@ -18,9 +18,11 @@ const DOM_homeButton = document.querySelector('.home-button');
 const DOM_gameOver = document.querySelector('.game-over');
 const DOM_returnToMainMenu = document.querySelector('.return-to-main-menu');
 const DOM_winner = document.querySelector('.winner');
+const DOM_recommendedMove = document.querySelector('.recommended-move');
 const DOM_recommendedMoveSource = document.querySelector('.recommended-move-source');
 const DOM_recommendedMoveDestination = document.querySelector('.recommended-move-destination');
 const DOM_recommendedMoveSection = document.querySelector('.recommended-move-section');
+const DOM_checkBox = document.querySelector('#checkbox1');
 
 const DOM_easyMode = document.querySelector('.easy-mode');
 const DOM_mediumMode = document.querySelector('.medium-mode');

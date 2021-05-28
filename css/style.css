@@ -87,6 +87,10 @@
   color: black;
 }
 
+.recommended-move {
+  display: none;
+}
+
 .recommended-move-section {
   color: blue;
 }
