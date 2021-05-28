@@ -44,7 +44,10 @@ class CheckersUtils {
     var index = playerColor === RED_PIECE ? 1 : -1;
     var oppositionColor = playerColor == RED_PIECE ? BLACK_PIECE : RED_PIECE;
     var temp = new Array();
-    if ((playerColor === RED_PIECE && squareNumber <= 55) || (playerColor === BLACK_PIECE && squareNumber >= 8)) {
+    if (
+      (playerColor === RED_PIECE && squareNumber <= LAST_ROW_START) ||
+      (playerColor === BLACK_PIECE && squareNumber > FIRST_ROW_END)
+    ) {
       if (squareNumber % BLOCKS_PER_ROW === 0) {
         if (squareBlocks[squareNumber + index * BLOCKS_PER_ROW + 1].piece === NO_PIECE) {
           temp.push(squareNumber + index * BLOCKS_PER_ROW + 1);
@@ -227,7 +230,6 @@ class CheckersUtils {
       Object.keys(CheckersUtils.getAllCaptureMoves(squareBlocks, player)).length === 0 &&
       Object.keys(CheckersUtils.getAllPossibleMoves(squareBlocks, player)).length === 0
     ) {
-      console.log('No movesss');
       return true;
     } else {
       return false;

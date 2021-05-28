@@ -4,18 +4,23 @@ DOM_playVSFriend.onclick = () => {
   DOM_menu.style.display = 'none';
   game.initialize();
   DOM_boardWrapper.style.display = 'block';
+  pieceMovementAudio.play();
 };
 
 DOM_playVSComputer.onclick = () => {
   DOM_menuList.style.display = 'none';
   DOM_gameModeList.style.display = 'block';
+  pieceMovementAudio.play();
 };
 
 DOM_homeButton.onclick = () => {
   game.reset();
   DOM_boardWrapper.style.display = 'none';
   DOM_gameModeList.style.display = 'none';
+  DOM_gameOver.style.display = 'none';
   DOM_menu.style.display = 'block';
+  DOM_board.style.opacity = 1;
+  pieceMovementAudio.play();
 };
 
 DOM_returnToMainMenu.onclick = () => {
@@ -25,6 +30,7 @@ DOM_returnToMainMenu.onclick = () => {
   DOM_gameOver.style.display = 'none';
   DOM_menu.style.display = 'block';
   DOM_board.style.opacity = 1;
+  pieceMovementAudio.play();
 };
 
 DOM_easyMode.onclick = () => {
@@ -32,6 +38,7 @@ DOM_easyMode.onclick = () => {
   DOM_menuList.style.display = 'block';
   DOM_menu.style.display = 'none';
   DOM_boardWrapper.style.display = 'block';
+  pieceMovementAudio.play();
 };
 
 DOM_mediumMode.onclick = () => {
@@ -39,6 +46,7 @@ DOM_mediumMode.onclick = () => {
   DOM_menuList.style.display = 'block';
   DOM_menu.style.display = 'none';
   DOM_boardWrapper.style.display = 'block';
+  pieceMovementAudio.play();
 };
 
 DOM_hardMode.onclick = () => {
@@ -46,17 +54,20 @@ DOM_hardMode.onclick = () => {
   DOM_menuList.style.display = 'block';
   DOM_menu.style.display = 'none';
   DOM_boardWrapper.style.display = 'block';
+  pieceMovementAudio.play();
 };
 
 DOM_instructions.onclick = () => {
   DOM_instructionsPage.style.display = 'block';
   DOM_menuList.style.display = 'none';
+  pieceMovementAudio.play();
 };
 
 DOM_checkersLogo.onclick = () => {
   DOM_menuList.style.display = 'block';
   DOM_gameModeList.style.display = 'none';
   DOM_instructionsPage.style.display = 'none';
+  pieceMovementAudio.play();
 };
 
 DOM_checkBox.onclick = () => {
@@ -65,4 +76,5 @@ DOM_checkBox.onclick = () => {
   } else {
     DOM_recommendedMove.style.display = 'none';
   }
+  pieceMovementAudio.play();
 };

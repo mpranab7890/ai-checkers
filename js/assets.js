@@ -1,3 +1,3 @@
-var pieceMovementAudio = new Audio('./assets/piece-movement.wav');
-var pieceCaptureAudio = new Audio('./assets/piece-capture.mp3');
-var pieceClickAudio = new Audio('./assets/piece-click.wav');
+const pieceMovementAudio = new Audio('./assets/piece-movement.mp3');
+const pieceCaptureAudio = new Audio('./assets/piece-capture.mp3');
+const pieceClickAudio = new Audio('./assets/piece-click.wav');

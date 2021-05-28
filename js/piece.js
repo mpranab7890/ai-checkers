@@ -9,9 +9,9 @@ class Piece {
 
   stylePiece = () => {
     if (this.type === RED_PIECE) {
-      this.pieceElement.setAttribute('class', 'red-piece');
+      this.pieceElement.setAttribute('class', RED_PIECE_STYLE_CLASS);
     } else if (this.type == BLACK_PIECE) {
-      this.pieceElement.setAttribute('class', 'black-piece');
+      this.pieceElement.setAttribute('class', BLACK_PIECE_STYLE_CLASS);
     }
   };
 
@@ -23,9 +23,9 @@ class Piece {
     this.isKing = true;
 
     if (this.type === RED_PIECE) {
-      this.pieceElement.setAttribute('class', 'red-king');
+      this.pieceElement.setAttribute('class', RED_KING_STYLE_CLASS);
     } else {
-      this.pieceElement.setAttribute('class', 'black-king');
+      this.pieceElement.setAttribute('class', BLACK_KING_STYLE_CLASS);
     }
   };
 }

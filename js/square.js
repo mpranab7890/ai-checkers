@@ -12,9 +12,9 @@ class Square {
     this.squareElement.style.width = parseInt(getComputedStyle(DOM_board).width) / BLOCKS_PER_ROW + 'px';
     this.squareElement.style.height = parseInt(getComputedStyle(DOM_board).height) / BLOCKS_PER_ROW + 'px';
     if ((this.squareNumber + this.rowCount) % TYPES_OF_BLOCKS === 0) {
-      this.squareElement.setAttribute('class', 'white-square');
+      this.squareElement.setAttribute('class', WHITE_BLOCK_STYLE_CLASS);
     } else {
-      this.squareElement.setAttribute('class', 'black-square');
+      this.squareElement.setAttribute('class', BLACK_BLOCK_STYLE_CLASS);
     }
   };
 

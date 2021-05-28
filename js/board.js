@@ -10,7 +10,7 @@ class Board {
         var squareRow = document.createElement('tr');
         DOM_board.appendChild(squareRow);
       }
-      var piece = 'none';
+      var piece = NO_PIECE;
       var squareElement = document.createElement('td');
       squareElement.setAttribute('id', i);
       var pieceElement = document.createElement('div');
@@ -22,7 +22,7 @@ class Board {
         piece = BLACK_PIECE;
       }
 
-      if (i > 55) {
+      if (i > LAST_ROW_START) {
         var bottomLabel = document.createElement('p');
         bottomLabel.innerText = BOARD_LABELS[i % BLOCKS_PER_ROW];
         bottomLabel.setAttribute('class', 'bottom-labels');

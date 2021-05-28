@@ -197,29 +197,7 @@ class Game {
         else {
           this.allCaptureMoves = CheckersUtils.getAllCaptureMoves(this.squareBlocks, nextPlayer);
           this.highlightPieces(this.allCaptureMoves, nextPlayer);
-          if (this.gameMode === AI_MODE) {
-            this.recommendedMove = AI.getMoveFromAI(this.squareBlocks, this.redPieces, this.blackPieces, false);
-          }
-          // Handles recommended move for next player
-          else {
-            let maximizingPlayer = this.turn === RED_PIECE ? true : false;
-
-            this.recommendedMove = AI.getMoveFromAI(
-              this.squareBlocks,
-              this.redPieces,
-              this.blackPieces,
-              maximizingPlayer
-            );
-          }
-
-          let sourceBlock = parseInt(Object.keys(this.recommendedMove)[0]);
-          let destinationBlock = this.recommendedMove[sourceBlock];
-
-          //DOM modifications for recommended move
-          DOM_recommendedMoveSource.innerText = CheckersUtils.convertToLabels(sourceBlock);
-          DOM_recommendedMoveSource.setAttribute('class', `${this.turn}-text`);
-          DOM_recommendedMoveDestination.innerText = CheckersUtils.convertToLabels(destinationBlock);
-          DOM_recommendedMoveDestination.setAttribute('class', `${this.turn}-text`);
+          this.handleMoveRecommendation();
         }
       }
     }
@@ -235,12 +213,32 @@ class Game {
 
   // Move the piece on the board corresponding to the best move for AI
   AImove = (sourceBlock, destinationBlock) => {
-    if (Math.abs(sourceBlock - destinationBlock) > 9) {
+    if (Math.abs(sourceBlock - destinationBlock) > CAPTURE_POSSIBLE_LIMIT) {
       this.capturePossible = true;
     }
     let redPieceIndex = this.redPieces.findIndex((r) => r.squareNumber === sourceBlock);
     this.currentPieceClicked = this.redPieces[redPieceIndex];
     this.handleBoardClick(this.squareBlocks[destinationBlock]);
+  };
+
+  //handles move recommendation
+  handleMoveRecommendation = () => {
+    if (this.gameMode === AI_MODE) {
+      this.recommendedMove = AI.getMoveFromAI(this.squareBlocks, this.redPieces, this.blackPieces, false);
+    } else {
+      let maximizingPlayer = this.turn === RED_PIECE ? true : false;
+
+      this.recommendedMove = AI.getMoveFromAI(this.squareBlocks, this.redPieces, this.blackPieces, maximizingPlayer);
+    }
+
+    let sourceBlock = parseInt(Object.keys(this.recommendedMove)[0]);
+    let destinationBlock = this.recommendedMove[sourceBlock];
+
+    //DOM modifications for recommended move
+    DOM_recommendedMoveSource.innerText = CheckersUtils.convertToLabels(sourceBlock);
+    DOM_recommendedMoveSource.setAttribute('class', `${this.turn}-text`);
+    DOM_recommendedMoveDestination.innerText = CheckersUtils.convertToLabels(destinationBlock);
+    DOM_recommendedMoveDestination.setAttribute('class', `${this.turn}-text`);
   };
 
   //Update dom elements according to the remaining number of pieces

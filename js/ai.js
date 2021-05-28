@@ -66,7 +66,7 @@ class AI {
 
     blackPieces.forEach((blackPiece) => {
       if (blackPiece.isKing) {
-        blackScore += 5 + 8;
+        blackScore += 5 + 8 + 1;
       } else {
         blackScore += 5 + (7 - Math.floor(blackPiece.squareNumber / 8));
       }
