@@ -1,5 +1,5 @@
 .checkers-wrapper {
-  width: 800px;
+  max-width: 36.74%;
   margin: 10px auto;
 }
 
@@ -10,6 +10,7 @@
 }
 
 .checkers-logo {
+  max-width: 100%;
   display: block;
   margin: 0px auto;
 }
@@ -20,6 +21,7 @@
 
 .checkers-menu-list img,
 .game-modes-list img {
+  max-width: 100%;
   display: block;
   margin: 0px auto;
   padding: 30px;
@@ -43,8 +45,7 @@
 }
 
 .board-wrapper {
-  width: 100%;
-  height: 100%;
+  width: 700px;
   position: relative;
   display: none;
 }
@@ -56,8 +57,8 @@
 }
 
 .board {
-  width: 100%;
-  height: 800px;
+  width: 700px;
+  height: 700px;
   border: 4px solid;
   border-spacing: 0;
 }
@@ -71,7 +72,7 @@
   font-weight: bolder;
   color: blue;
   float: left;
-  margin: 0px 226px;
+  padding: 10px;
 }
 
 .turn-text span {
@@ -87,10 +88,6 @@
 }
 
 .recommended-move-section {
-  position: absolute;
-  left: 101%;
-  top: 0%;
-  margin-top: 60px;
   color: blue;
 }
 
@@ -228,4 +225,24 @@
   font-size: 25px;
   font-weight: bolder;
   list-style: none;
+}
+
+@media screen and (max-width: 992px) {
+  .checkers-wrapper {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .checkers-wrapper {
+    max-width: 100%;
+  }
+
+  .board-wrapper {
+    width: 100%;
+  }
+
+  .board {
+    width: 100%;
+  }
 }
