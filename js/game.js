@@ -257,7 +257,7 @@ class Game {
     DOM_gameOver.style.display = 'block';
     let winner = previousPlayer == RED_PIECE ? BLACK_PIECE : RED_PIECE;
     DOM_winner.innerHTML = winner;
-    //DOM_winner.setAttribute('class', `${winner}-text`);
+    DOM_winner.classList.add(`${winner}-text`);
     DOM_board.style.opacity = 0.6;
   };
 

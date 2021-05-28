@@ -16,6 +16,10 @@
   margin: 0px auto;
 }
 
+.checkers-logo:hover {
+  cursor: pointer;
+}
+
 .checkers-menu-list img,
 .game-modes-list img {
   display: block;
@@ -215,4 +219,18 @@
   margin: 0px auto;
   background: url('../images/black-king.png');
   background-size: 100% 100%;
+}
+
+.instructions-page {
+  display: none;
+  padding: 0px 20px;
+  overflow: scroll;
+  height: 450px;
+}
+
+.instructions-page li {
+  padding: 10px 0px;
+  font-size: 25px;
+  font-weight: bolder;
+  list-style: none;
 }

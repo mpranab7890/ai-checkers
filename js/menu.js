@@ -45,3 +45,15 @@ DOM_hardMode.onclick = () => {
   DOM_menu.style.display = 'none';
   DOM_boardWrapper.style.display = 'block';
 };
+
+DOM_instructions.onclick = () => {
+  DOM_instructionsPage.style.display = 'block';
+  DOM_menuList.style.display = 'none';
+};
+
+DOM_checkersLogo.onclick = () => {
+  DOM_menuList.style.display = 'block';
+  DOM_gameModeList.style.display = 'none';
+
+  DOM_instructionsPage.style.display = 'none';
+};

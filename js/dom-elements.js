@@ -1,10 +1,13 @@
 const DOM_gameWrapper = document.querySelector('.checkers-wrapper');
+const DOM_checkersLogo = document.querySelector('.checkers-logo');
 const DOM_menu = document.querySelector('.checkers-menu');
 const DOM_menuList = document.querySelector('.checkers-menu-list');
 const DOM_gameModeList = document.querySelector('.game-modes-list');
 const DOM_board = document.querySelector('.board');
 const DOM_playVSFriend = document.querySelector('.play-vs-friend');
 const DOM_playVSComputer = document.querySelector('.play-vs-computer');
+const DOM_instructions = document.querySelector('.instructions');
+const DOM_instructionsPage = document.querySelector('.instructions-page');
 
 const DOM_boardWrapper = document.querySelector('.board-wrapper');
 const DOM_scoreboard = document.querySelector('.scoreboard');
