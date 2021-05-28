@@ -58,17 +58,17 @@ class AI {
     let blackScore = 0;
     redPieces.forEach((redPiece) => {
       if (redPiece.isKing) {
-        redScore += 5 + 8 + 1;
+        redScore += DEFAULT_SCORE + BLOCKS_PER_ROW + (7 - Math.floor(redPiece.squareNumber / BLOCKS_PER_ROW));
       } else {
-        redScore += 5 + Math.floor(redPiece.squareNumber / 8);
+        redScore += DEFAULT_SCORE + Math.floor(redPiece.squareNumber / BLOCKS_PER_ROW);
       }
     });
 
     blackPieces.forEach((blackPiece) => {
       if (blackPiece.isKing) {
-        blackScore += 5 + 8 + 1;
+        blackScore += DEFAULT_SCORE + BLOCKS_PER_ROW + Math.floor(blackPiece.squareNumber / BLOCKS_PER_ROW);
       } else {
-        blackScore += 5 + (7 - Math.floor(blackPiece.squareNumber / 8));
+        blackScore += DEFAULT_SCORE + (7 - Math.floor(blackPiece.squareNumber / BLOCKS_PER_ROW));
       }
     });
     return redScore - blackScore;

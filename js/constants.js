@@ -25,6 +25,8 @@ const RED_PIECE = 'red';
 const BLACK_PIECE = 'black';
 const NO_PIECE = 'none';
 
+const DEFAULT_SCORE = 5;
+
 const INITIAL_ALPHA = -1000;
 const INITIAL_BETA = +1000;
 const INITIAL_MAX_VALUE = -10000;
