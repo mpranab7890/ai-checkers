@@ -298,6 +298,10 @@ class Game {
     this.pieceClicked = false;
     this.capturePossible = false;
     this.currentPieceClicked = {};
+    DOM_checkBox.checked = false;
+    DOM_recommendedMove.style.display = 'none';
+    DOM_recommendedMoveSource.innerText = '';
+    DOM_recommendedMoveDestination.innerText = '';
     DOM_board.innerHTML = '';
   };
 }
