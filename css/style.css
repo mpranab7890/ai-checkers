@@ -1,12 +1,10 @@
 .checkers-wrapper {
   width: 800px;
-  /* height: 800px; */
   margin: 10px auto;
 }
 
 .checkers-menu {
   height: 100%;
-  /* background-color: rgb(255, 211, 167); */
   background: url('../images/background-texture.jpg');
   background-size: 100% 100%;
 }
@@ -140,7 +138,6 @@
 
 .red-score-text,
 .black-score-text {
-  /* padding: 20px 5px; */
   position: absolute;
   top: 20%;
   left: 27%;
@@ -151,14 +148,12 @@
 }
 
 .black-square {
-  /* background-color: #3f3f3f; */
   background: url('../images/dark-texture.jpg');
   background-size: 100% 100%;
   position: relative;
 }
 
 .white-square {
-  /* background-color: #bd8f5d; */
   background: url('../images/light-texture.jpg');
   background-size: 100% 100%;
   position: relative;

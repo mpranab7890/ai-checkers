@@ -1,4 +1,12 @@
 class CheckersUtils {
+  /**
+   * Calculates all the possible moves for the current player
+   *
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} player - represents all the pieces of current player
+   *
+   * @returns {Object} - all the possible moves for the current player
+   */
   static getAllPossibleMoves(squareBlocks, player) {
     var playerColor = player[0].type;
     var possibleMoves = {};
@@ -21,6 +29,16 @@ class CheckersUtils {
 
     return possibleMoves;
   }
+
+  /**
+   * Calculates the possible moves for a particular piece on a particular square block
+   *
+   * @param {int} squareNumber - Square block number
+   * @param {String} playerColor - Color of the pieces of the current player
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   *
+   * @returns {Array} - all the possible square blocks to move for the current player
+   */
 
   static getMove(squareNumber, playerColor, squareBlocks) {
     var index = playerColor === RED_PIECE ? 1 : -1;
@@ -49,6 +67,14 @@ class CheckersUtils {
     return temp;
   }
 
+  /**
+   * Calculates all the possible capture moves for the current player
+   *
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} player - represents all the pieces of current player
+   *
+   * @returns {Object} - all the possible capture moves for the current player
+   */
   static getAllCaptureMoves(squareBlocks, player) {
     var playerColor = player[0].type;
     var oppositionColor = playerColor == RED_PIECE ? BLACK_PIECE : RED_PIECE;
@@ -74,7 +100,6 @@ class CheckersUtils {
           );
           result = result.concat(result2);
         }
-        //result = result1.concat(result2);
       } else if (CheckersUtils.checkForValidCapture(playerColor, playerPiece.squareNumber)) {
         result = CheckersUtils.getCaptureMove(playerPiece.squareNumber, playerColor, oppositionColor, squareBlocks);
       }
@@ -86,6 +111,15 @@ class CheckersUtils {
     return captureMoves;
   }
 
+  /**
+   * Checks for valid capture
+   *
+   * @param {String} playerColor - Color of all the pieces of the current player
+   * @param {int} squareNumber - Square block number
+   *
+   * @returns {bool} - represents if capture is valid or not
+   */
+
   static checkForValidCapture(playerColor, squareNumber) {
     if (
       (playerColor === BLACK_PIECE && squareNumber > BLACK_PIECE_CAPTURE_LIMIT) ||
@@ -96,9 +130,19 @@ class CheckersUtils {
     return false;
   }
 
+  /**
+   * Calculates the capture moves for a particular piece on a particular square block
+   *
+   * @param {int} squareNumber - Square block number
+   * @param {String} playerColor - Color of all the pieces of the current player
+   * @param {String} oppositionColor - Color of all the pieces of the opposition player
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   *
+   * @returns {Array} - all the possible square blocks to move for the current player following the capture
+   */
+
   static getCaptureMove(squareNumber, playerColor, oppositionColor, squareBlocks) {
     var index = playerColor === RED_PIECE ? 1 : -1;
-    //var oppositionColor = playerColor == RED_PIECE ? BLACK_PIECE : RED_PIECE;
     var temp = new Array();
     if (squareNumber % BLOCKS_PER_ROW === 0 || (squareNumber - 1) % BLOCKS_PER_ROW === 0) {
       let oppositionIndex = squareNumber + index * BLOCKS_PER_ROW + 1;
@@ -133,12 +177,30 @@ class CheckersUtils {
     return temp;
   }
 
+  /**
+   * Converts square block number to board labels.
+   *
+   * @param {int} squareNumber - Square block number
+   *
+   * @returns {String} - Board label corresponding to square block number
+   */
+
   static convertToLabels = (squareNumber) => {
     let label = '';
     label += BOARD_LABELS[squareNumber % BLOCKS_PER_ROW];
     label += BLOCKS_PER_ROW - Math.floor(squareNumber / BLOCKS_PER_ROW);
     return label;
   };
+
+  /**
+   * Checks if upgrade to king is possible
+   *
+   * @param {String} pieceColor - Color of all the pieces of the current player
+   * @param {int} squareNumber - Square block number
+   *
+   * @returns {bool} - represents if upgrade to king is possible or not
+   *
+   */
 
   static possibleKingUpgrade = (pieceColor, squareNumber) => {
     if (pieceColor === BLACK_PIECE && squareNumber < 8) {
@@ -148,6 +210,15 @@ class CheckersUtils {
     }
     return false;
   };
+
+  /**
+   * Checks if game is over or not
+   *
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} player - represents all the pieces of current player
+   *
+   * @returns {bool} - represents if game is over or not
+   */
 
   static checkGameOver = (squareBlocks, player) => {
     if (player.length === 0) {

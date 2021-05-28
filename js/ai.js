@@ -5,6 +5,13 @@ class AI {
     AI.bestBlackMove = {};
   }
 
+  /**
+   * Makes a deep copy of an array of objects so that the original object is not modified during recursive loop
+   *
+   * @param {Array<Object>} elements
+   *
+   * @returns {Array<Object>}
+   */
   static makeCopy = (elements) => {
     var copyOfElement = elements.map((element) => {
       return { ...element };
@@ -12,6 +19,17 @@ class AI {
 
     return copyOfElement;
   };
+
+  /**
+   * Entry point for AI algorithm called from game.js
+   *
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} redPieces - represents all red pieces on board
+   * @param {Array<Object>} blackPieces - represents all black pieces on board
+   * @param {bool} maximizingPlayer - represents the type of current player
+   *
+   * @returns {Object} - the best move for the AI
+   */
 
   static getMoveFromAI = (squareBlocks, redPieces, blackPieces, maximizingPlayer) => {
     AI.minimax(
@@ -28,6 +46,15 @@ class AI {
     }
     return maximizingPlayer ? AI.bestRedMove : AI.bestBlackMove;
   };
+
+  /**
+   * A static evaluation function which gives a score to the current board state
+   *
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} redPieces - represents all red pieces on board
+   *
+   * @returns {int} - the score for the current board state
+   */
 
   static calculateHeuristic(redPieces, blackPieces) {
     let redScore = 0;
@@ -48,9 +75,21 @@ class AI {
       }
     });
     return redScore - blackScore;
-
-    // return Math.random() * 1000;
   }
+
+  /**
+   * The main function for the AI. Recursively evaluates each possible move for each player
+   *
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} redPieces - represents all red pieces on board
+   * @param {Array<Object>} blackPieces - represents all black pieces on board
+   * @param {int} depth - the maximum depth to visit for the game tree
+   * @param {int} alpha - the best value till now for the maximizing player
+   * @param {int} beta - the best value till now for the minimizing player
+   * @param {bool} maximizingPlayer - the type of current player
+   *
+   * @returns {int} - the best evaluation value for the current game state
+   */
 
   static minimax(squareBlocks, redPieces, blackPieces, depth, alpha, beta, maximizingPlayer) {
     if (
@@ -62,11 +101,11 @@ class AI {
     }
 
     if (maximizingPlayer) {
-      var maxEval = -10000;
+      var maxEval = INITIAL_MAX_VALUE;
+      //Gets all possible moves for the current game state and current player
       let [possibleMoves, capturePossible] = AI.possibleMoves(squareBlocks, redPieces);
-      // console.log(possibleMoves);
       for (const possibleMove of possibleMoves) {
-        // console.log(possibleMove, depth);
+        //The AI makes it's move on the copy of the board. The original arrays and objects are not modified
         let [updatedSquareBlocks, updatedRedPieces, updatedBlackPieces] = AI.makeMove(
           possibleMove,
           capturePossible,
@@ -76,6 +115,7 @@ class AI {
           maximizingPlayer
         );
 
+        //Recursively calculates the static evaluation for the current move.
         var evaluation = AI.minimax(
           updatedSquareBlocks,
           updatedRedPieces,
@@ -86,6 +126,7 @@ class AI {
           !maximizingPlayer
         );
 
+        //Maximizing playArray<Object>er selects the move with the maximum value
         if (evaluation > maxEval) {
           maxEval = evaluation;
           if (depth === AI.depth) {
@@ -100,8 +141,8 @@ class AI {
       }
       return maxEval;
     } else {
-      var minEval = +10000;
-
+      var minEval = INITIAL_MIN_VALUE;
+      //Gets all possible moves for the current game state and current player
       let [possibleMoves, capturePossible] = AI.possibleMoves(squareBlocks, blackPieces);
 
       for (const possibleMove of possibleMoves) {
@@ -122,8 +163,8 @@ class AI {
           beta,
           !maximizingPlayer
         );
-        //console.log('Human: ' + evaluation + ' ' + depth);
 
+        //Minimizing player selects the move with the maximum value
         if (evaluation < minEval) {
           minEval = evaluation;
           if (depth === AI.depth) {
@@ -138,11 +179,18 @@ class AI {
         }
       }
 
-      // console.log(beta);
       return minEval;
     }
   }
 
+  /**
+   * All possible moves for current game state and converts them to a suitable form
+   *
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} player - represents all the pieces of a current player
+   *
+   * @returns {Array<Array<Object> , bool>} - all possible moves and a variable representing if capture is possible or not
+   */
   static possibleMoves = (squareBlocks, player) => {
     var possibleMoves;
     var capturePossible = false;
@@ -163,6 +211,18 @@ class AI {
     return [finalPossibleMoves, capturePossible];
   };
 
+  /**
+   * The player makes it's move on the virtual board. Pieces are added and removed as per the rules of the game
+   *
+   * @param {Object} possibleMove - A possible move for the player with source and deestination number
+   * @param {bool} capturePossible - represents if capture is possible or not
+   * @param {Array<Object>} squareBlocks - represents all square blocks of board
+   * @param {Array<Object>} redPieces - represents all red pieces on board
+   * @param {Array<Object>} blackPieces - represents all black pieces on board
+   * @param {bool} turn - the type of current player
+   *
+   * @returns {Array<Array<Object>, Array<Object>, Array<Object> >} - updated board and pieces after making a move
+   */
   static makeMove = (possibleMove, capturePossible, squareBlocks, redPieces, blackPieces, turn) => {
     let kingPossibility = false;
     let sourceBlock = parseInt(Object.keys(possibleMove)[0]);

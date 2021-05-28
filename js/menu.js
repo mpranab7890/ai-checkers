@@ -1,3 +1,5 @@
+// Contains required click handlers for all elements
+
 DOM_playVSFriend.onclick = () => {
   DOM_menu.style.display = 'none';
   game.initialize();
@@ -54,6 +56,5 @@ DOM_instructions.onclick = () => {
 DOM_checkersLogo.onclick = () => {
   DOM_menuList.style.display = 'block';
   DOM_gameModeList.style.display = 'none';
-
   DOM_instructionsPage.style.display = 'none';
 };
